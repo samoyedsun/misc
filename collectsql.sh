@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source_folder=$1
-target_folder=$2
+target_folder=./collect.sql
 
 echo "# 数据库初始化sql" > $target_folder
 
