@@ -10,7 +10,6 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 exclude=kube*
 EOF
 sudo mv kubernetes.repo /etc/yum.repos.d/
-rm kubernetes.repo
 
 # Set SELinux in permissive mode (effectively disabling it)
 setenforce 0
@@ -33,7 +32,6 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
 sudo mv k8s.conf /etc/sysctl.d/
-rm k8s.conf
 sudo sysctl --system
 
 # 安装docker, 并启动docker服务, 设置开启自启动
