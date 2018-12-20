@@ -43,3 +43,6 @@ sudo systemctl enable docker
 
 # 安装tc (解决`sudo kubeadm init`时[WARNING FileExisting-tc]: tc not found in system path)
 sudo yum install tc -y
+
+# 拉取kubernetes相关基础镜像
+sudo kubeadm config images pull
