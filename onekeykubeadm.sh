@@ -46,3 +46,6 @@ sudo yum install tc -y
 
 # 拉取kubernetes相关基础镜像
 sudo kubeadm config images pull
+
+# 如果插件将容器连接到Linux桥，插件必须将net/bridge/bridge-nf-call-iptables sysctl设置为1，以确保iptables代理函数正确
+sudo sysctl net.bridge.bridge-nf-call-iptables=1
