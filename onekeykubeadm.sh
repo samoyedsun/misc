@@ -27,3 +27,19 @@ sudo systemctl enable kubelet && sudo systemctl start kubelet
 
 # 查看kubelet状态
 sudo systemctl status kubelet
+
+cat <<EOF > k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sudo mv k8s.conf /etc/sysctl.d/
+rm k8s.conf
+sudo sysctl --system
+
+# 安装docker, 并启动docker服务, 设置开启自启动
+sudo amazon-linux-extras install docker -y
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# 安装tc (解决`sudo kubeadm init`时[WARNING FileExisting-tc]: tc not found in system path)
+sudo yum install tc -y
