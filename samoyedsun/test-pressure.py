@@ -4,7 +4,7 @@ REQUEST_URL = os.getenv('REQUEST_URL')
 THREAD_NUM = int(os.getenv('THREAD_NUM'))
 
 fd = open("/root/log.log", 'w')
-fd.write(content)
+fd.write("hell\n")
 fd.close()
 
 is_running = True
