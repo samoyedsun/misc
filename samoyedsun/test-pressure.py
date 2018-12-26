@@ -3,6 +3,10 @@ import requests, threading, signal, os
 REQUEST_URL = os.getenv('REQUEST_URL')
 THREAD_NUM = int(os.getenv('THREAD_NUM'))
 
+fd = open("/root/log.log", 'w')
+fd.write(content)
+fd.close()
+
 is_running = True
 def onSigTerm(signo, frame):
     global is_running
@@ -10,7 +14,10 @@ def onSigTerm(signo, frame):
 
 def handler(a,b):
     while is_running:
-        print(requests.get(REQUEST_URL).text)
+        content = requests.get(REQUEST_URL).text
+        fd = open('/root/log.log', 'a')
+        fd.write(content + "\n")
+        fd.close()
 
 def process():
     signal.signal(signal.SIGTERM, onSigTerm)
