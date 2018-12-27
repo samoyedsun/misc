@@ -1,4 +1,4 @@
-import requests, threading, signal, os, sys
+import requests, threading, signal, os, sys, time
 
 REQUEST_URL = os.getenv('REQUEST_URL')
 THREAD_NUM = int(os.getenv('THREAD_NUM'))
@@ -23,6 +23,7 @@ def handler(a,b):
         fd = open('./log.log', 'a')
         fd.write(content + "\n")
         fd.close()
+        time.sleep(1)
 
 def process():
     signal.signal(signal.SIGTERM, onSigTerm)
