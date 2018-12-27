@@ -1,9 +1,9 @@
-import requests, threading, signal, os
+import requests, threading, signal, os, sys
 
 REQUEST_URL = os.getenv('REQUEST_URL')
 THREAD_NUM = int(os.getenv('THREAD_NUM'))
 
-fd = open("/root/log.log", 'w')
+fd = open("./log.log", 'w')
 fd.write("hell\n")
 fd.close()
 
@@ -14,8 +14,13 @@ def onSigTerm(signo, frame):
 
 def handler(a,b):
     while is_running:
-        content = requests.get(REQUEST_URL).text
-        fd = open('/root/log.log', 'a')
+        content = ""
+        try:
+            content = requests.get(REQUEST_URL).text
+        except:
+            info=sys.exc_info()
+            content = str(info[0]) + "----:----" + str(info[1])
+        fd = open('./log.log', 'a')
         fd.write(content + "\n")
         fd.close()
 
