@@ -23,7 +23,6 @@ def handler(a,b):
         fd = open('./log.log', 'a')
         fd.write(content + "\n")
         fd.close()
-        time.sleep(1)
 
 def process():
     signal.signal(signal.SIGTERM, onSigTerm)
