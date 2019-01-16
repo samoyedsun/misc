@@ -1,17 +1,21 @@
 #!/bin/bash
 
+# 环境: aliyun ecs
+# 系统: ubuntu 18.04
+
 # 清理旧的docker
-apt-get remove docker docker-engine docker.io
+apt-get remove docker docker-engine docker.io -y
 
 # 更新apt软件包索引
-apt-get update
+apt-get update -y
 
 # 安装软件包,以允许apt通过https使用镜像仓库
 apt-get install \
      apt-transport-https \
      ca-certificates \
      curl \
-     software-properties-common
+     software-properties-common \
+     -y
 
 # 添加docker官方的GPG密钥
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -26,7 +30,7 @@ add-apt-repository \
     stable"
 
 # 更新apt软件包索引
-apt-get update
+apt-get update -y
 
 # 安装最新版本的docker ce
-apt-get install docker-ce
+apt-get install docker-ce -y
