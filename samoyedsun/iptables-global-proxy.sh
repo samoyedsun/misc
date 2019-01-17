@@ -9,7 +9,7 @@ iptables -t nat -N SOCKS
 # 忽略本地地址
 iptables -t nat -A SOCKS -d 0.0.0.0/8 -j RETURN
 iptables -t nat -A SOCKS -d 10.0.0.0/8 -j RETURN
-iptables -t nat -A SOCKS -d 127.0.0.1/8 -j RETURN
+iptables -t nat -A SOCKS -d 127.0.0.0/8 -j RETURN
 iptables -t nat -A SOCKS -d 169.254.0.0/16 -j RETURN
 iptables -t nat -A SOCKS -d 172.16.0.0/12 -j RETURN
 iptables -t nat -A SOCKS -d 192.168.0.0/16 -j RETURN
