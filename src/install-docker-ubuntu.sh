@@ -4,13 +4,13 @@
 # 系统: ubuntu 18.04
 
 # 清理旧的docker
-apt-get remove docker docker-engine docker.io -y
+apt remove docker docker-engine docker.io -y
 
 # 更新apt软件包索引
-apt-get update -y
+apt update -y
 
 # 安装软件包,以允许apt通过https使用镜像仓库
-apt-get install \
+apt install \
      apt-transport-https \
      ca-certificates \
      curl \
@@ -30,7 +30,7 @@ add-apt-repository \
     stable"
 
 # 更新apt软件包索引
-apt-get update -y
+apt update -y
 
 # 安装最新版本的docker ce
-apt-get install docker-ce -y
+apt install docker-ce -y
