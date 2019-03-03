@@ -33,6 +33,9 @@ apt update -y
 # 安装最新版本的docker ce
 apt install docker-ce -y
 
+# 启动docker服务
+systemctl start docker
+
 # 启动proxy container
 docker run -it \
     -d \
