@@ -39,7 +39,9 @@ apt install docker-ce -y
 systemctl start docker
 
 # 启动proxy container
-docker run -it -d \
+docker run -it \
+    -d \
+    --rm \
     -p 12000:13003 \
     -e SS_PASS=helloworld12000 \
     -e SS_MODE=aes-256-cfb \
