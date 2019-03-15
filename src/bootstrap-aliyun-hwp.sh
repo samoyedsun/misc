@@ -3,6 +3,10 @@
 # 环境: aliyun ecs
 # 系统: ubuntu 18.04
 
+echo "sleep 100 begin."
+sleep 300
+echo "sleep 100 end."
+
 # 更新apt软件包索引
 apt update -y
 
