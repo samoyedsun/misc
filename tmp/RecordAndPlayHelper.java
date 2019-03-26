@@ -33,7 +33,8 @@ public class RecordAndPlayHelper {
     public static int playVoice(String filePath) {
         Log.e("RecordAndPlayHelper", "playVoice:" + filePath);
         if ((new File(filePath)).exists()) {
-            AudioManager audioManager = (AudioManager)AppActivity.getContext().getSystemService(Context.AUDIO_SERVICE);
+            AudioManager audioManager = (AudioManager)AppActivity.getContext()
+                    .getSystemService(Context.AUDIO_SERVICE);
             audioManager.setMode(audioManager.MODE_NORMAL);
             audioManager.setSpeakerphoneOn(true);
             mediaPlayer = new MediaPlayer();
@@ -72,12 +73,12 @@ public class RecordAndPlayHelper {
                 mRecorder = null;
             }
             mRecorder = new MediaRecorder();
-            mRecorder.setAudioSource(1);
-            mRecorder.setOutputFormat(3);
-            mRecorder.setAudioEncoder(1);
-            mRecorder.setAudioChannels(1);
-            mRecorder.setAudioSamplingRate(8000);
-            mRecorder.setAudioEncodingBitRate(64);
+            mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+            mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            mRecorder.setAudioChannels(2);
+            mRecorder.setAudioSamplingRate(44100);
+            mRecorder.setAudioEncodingBitRate(96000);
             mRecorder.setOutputFile(filepath);
             mRecorder.prepare();
             isRecording = true;
@@ -89,7 +90,8 @@ public class RecordAndPlayHelper {
     public static boolean checkRecordPermision() {
         if (ContextCompat.checkSelfPermission(AppActivity.getContext(),
                 "android.permission.RECORD_AUDIO") != 0) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale((Activity)AppActivity.getContext(),
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    (Activity)AppActivity.getContext(),
                     "android.permission.RECORD_AUDIO")) {
                 ((AppActivity)AppActivity.getContext()).runOnUiThread(
                         new Runnable() {
@@ -103,7 +105,8 @@ public class RecordAndPlayHelper {
                 ((AppActivity)AppActivity.getContext()).runOnUiThread(
                         new Runnable() {
                             public void run() {
-                                ActivityCompat.requestPermissions((Activity)AppActivity.getContext(),
+                                ActivityCompat.requestPermissions(
+                                        (Activity)AppActivity.getContext(),
                                         new String[]{"android.permission.RECORD_AUDIO"},
                                         100);
                             }
