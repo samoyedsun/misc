@@ -87,13 +87,16 @@ public class RecordAndPlayHelper {
         }
     }
     public static boolean checkRecordPermision() {
-        if (ContextCompat.checkSelfPermission(AppActivity.getContext(), "android.permission.RECORD_AUDIO") != 0) {
+        if (ContextCompat.checkSelfPermission(AppActivity.getContext(),
+                "android.permission.RECORD_AUDIO") != 0) {
             if (ActivityCompat.shouldShowRequestPermissionRationale((Activity)AppActivity.getContext(),
                     "android.permission.RECORD_AUDIO")) {
                 ((AppActivity)AppActivity.getContext()).runOnUiThread(
                         new Runnable() {
                             public void run() {
-                                Toast.makeText(AppActivity.getContext(), "您已禁⽌止该权限，需要重新开启。", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AppActivity.getContext(),
+                                        "您已禁⽌止该权限，需要重新开启。",
+                                        Toast.LENGTH_SHORT).show();
                             }
                         });
             } else {
