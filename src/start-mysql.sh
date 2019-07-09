@@ -1,4 +1,4 @@
-sudo docker run -it -d -p 3306:3306 \
+docker run -it -d -p 3306:3306 \
 	-v $HOME/data/mysql:/var/lib/mysql \
 	-e MYSQL_USER=game \
 	-e MYSQL_PASSWORD=lyZMD8HKeMe6Gz \
