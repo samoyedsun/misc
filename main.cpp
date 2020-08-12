@@ -100,7 +100,7 @@ int main()
 	std::cout << "--------------------------" << std::endl;
 	std::cout << "目标玩家:" << std::endl;
 	std::cout << "--------------------------" << std::endl;
-	std::cout << "ID:" << target_user_id << "\t战斗力:" << target_user_ce << std::endl;
+	std::cout << "UID:" << target_user_id << "\t战斗力:" << target_user_ce << std::endl;
 	std::cout << "--------------------------" << std::endl;
 	std::cout << "相接近的5个玩家:" << std::endl;
 	std::cout << "--------------------------" << std::endl;
