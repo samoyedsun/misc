@@ -37,22 +37,6 @@ int getCeByUid(const std::vector<UserInfo>& userInfoVec, int uid)
 	return 0;
 }
 
-void fillTargetUserNearbyVec(const std::vector<UserInfo>& userInfoVec, std::vector<UserInfo>& targetUserNearbyVec)
-{
-	for (auto& it : userInfoVec)
-	{
-		if (it.uid != TARGET_USER_ID)
-		{
-			UserInfo userInfoTmp = {.uid = it.uid, .ce = it.ce};
-			targetUserNearbyVec.push_back(userInfoTmp);
-		}
-		if (targetUserNearbyVec.size() == TARGET_USER_AMOUNT_NEARBY)
-		{
-			return;
-		}
-	}
-}
-
 long get_time_for_millisecond()
 {
 	struct timeval tv;
@@ -68,32 +52,13 @@ int main()
 
 	// TODO:
 	// 1.获取目标用户的战斗力
-	// 2.通过最相对目标用户差值排序
-	// 3.获取前6个同时排除目标用户就是战斗力最接近的5个用户了
+	// 2.在用户信息列表中获取5个与目标用户战斗力差值最小的用户
+	//   每获取一个就将其放到列表最前面, 最后列表最前面的5个就是我们要找的战斗力与目标用户最相近的用户.
 
 	long t_start, t_end;
         t_start = get_time_for_millisecond();
 	int target_user_id = TARGET_USER_ID;
 	int target_user_ce = getCeByUid(userInfoVec, target_user_id);
-	/*
-	sort(userInfoVec.begin(), userInfoVec.end(), [target_user_ce](const UserInfo ui1, const UserInfo ui2)
-	{
-		int diff_value_1 = ui1.ce - target_user_ce;
-		if (target_user_ce > ui1.ce)
-		{
-			diff_value_1 = target_user_ce - ui1.ce;
-		}
-		int diff_value_2 = ui2.ce - target_user_ce;
-		if (target_user_ce > ui2.ce)
-		{
-			diff_value_2 = target_user_ce - ui2.ce;
-		}
-		return diff_value_1 < diff_value_2;
-	});
-	std::vector<UserInfo> targetUserNearbyVec;
-	fillTargetUserNearbyVec(userInfoVec, targetUserNearbyVec);
-	*/
-	std::vector<UserInfo> targetUserNearbyVec;
 	for (int exclude_offset= 0; exclude_offset < TARGET_USER_AMOUNT_NEARBY; ++exclude_offset)
 	{
 		int diff_value_tmp = -1;
@@ -126,8 +91,7 @@ int main()
 		userInfoPtr->uid = userInfoVec[exclude_offset].uid;
 		userInfoPtr->ce = userInfoVec[exclude_offset].ce;
 		userInfoVec[exclude_offset].uid = userInfoTmp.uid;
-		userInfoVec[exclude_offset].ce = userInfoTmp.uid;
-		targetUserNearbyVec.push_back(userInfoTmp);
+		userInfoVec[exclude_offset].ce = userInfoTmp.ce;
 	}
         t_end = get_time_for_millisecond();
 
@@ -140,12 +104,14 @@ int main()
 	std::cout << "--------------------------" << std::endl;
 	std::cout << "相接近的5个玩家:" << std::endl;
 	std::cout << "--------------------------" << std::endl;
-	for (auto& it : targetUserNearbyVec)
+	for (int i = 0; i < TARGET_USER_AMOUNT_NEARBY; ++i)
 	{
-		int a = it.ce;
+		int a = userInfoVec[i].ce;
 		int b = target_user_ce;
 		int diff_value = (a > b) ? (a - b) : (b - a);
-		std::cout << "UID:" << it.uid << "\t战斗力:" << it.ce << "\t相对目标玩家战斗力差值:" << diff_value << std::endl;
+		std::cout << "UID:" << userInfoVec[i].uid << "\t";
+		std::cout << "战斗力:" << userInfoVec[i].ce << "\t";
+		std::cout << "相对目标玩家战斗力差值:" << diff_value << std::endl;
 	}
 	return 0;
 }
