@@ -37,7 +37,7 @@ int getCeByUid(const std::vector<UserInfo>& userInfoVec, int uid)
 	return 0;
 }
 
-long get_time_for_millisecond()
+long getTimeForMillisecond()
 {
 	struct timeval tv;
     	gettimeofday(&tv, NULL);
@@ -56,7 +56,7 @@ int main()
 	//   每获取一个就将其放到列表最前面, 最后列表最前面的5个就是我们要找的战斗力与目标用户最相近的用户.
 
 	long t_start, t_end;
-        t_start = get_time_for_millisecond();
+        t_start = getTimeForMillisecond();
 	int target_user_id = TARGET_USER_ID;
 	int target_user_ce = getCeByUid(userInfoVec, target_user_id);
 	for (int exclude_offset= 0; exclude_offset < TARGET_USER_AMOUNT_NEARBY; ++exclude_offset)
@@ -93,7 +93,7 @@ int main()
 		userInfoVec[exclude_offset].uid = userInfoTmp.uid;
 		userInfoVec[exclude_offset].ce = userInfoTmp.ce;
 	}
-        t_end = get_time_for_millisecond();
+        t_end = getTimeForMillisecond();
 
 	std::cout << "--------------------------" << std::endl;
 	std::cout << "处理耗时:" << t_end - t_start << "ms" << std::endl;
