@@ -1,0 +1,32 @@
+filebeat.inputs:
+- type: log
+  enabled: true
+  fields:
+    source: error
+  paths:
+    - /usr/local/nginx/logs/error.log
+- type: log
+  enabled: true
+  fields:
+    source: access
+  paths:
+    - /usr/local/nginx/logs/access.log
+
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]
+  indices:
+  - index: dev-nginx-proxy-access-%{+yyyy.MM.dd}
+    when:
+      contains:
+        fields.source: access
+    template:
+      name: dev-nginx-proxy-access
+      pattern: dev-nginx-proxy-access-*
+  - index: dev-nginx-proxy-error-%{+yyyy.MM.dd}
+    when:
+      contains:
+        fields.source: error
+    template:
+      name: dev-nginx-proxy-error
+      pattern: dev-nginx-proxy-error-*
+

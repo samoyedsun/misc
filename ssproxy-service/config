@@ -1,0 +1,2 @@
+listen-address  0.0.0.0:13001
+forward-socks5  /               host-ssproxy-socket5:13002 .

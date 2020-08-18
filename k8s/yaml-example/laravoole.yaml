@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: svc-laravoole
+    labels:
+        app: laravoole
+spec:
+    ports:
+    - port: 9050
+      targetPort: lvl-server
+    selector:
+        app: laravoole
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp-laravoole
+  labels:
+      app: laravoole
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: laravoole
+  template:
+    metadata:
+      labels:
+        app: laravoole
+    spec:
+      containers:
+      - name: laravoole
+        image: samoyedsun/bid-dev:v3
+        ports:
+        - name: lvl-server
+          containerPort: 9050
+        command: ["./bin/artisan"]
+        args: ["laravoole", "start"]

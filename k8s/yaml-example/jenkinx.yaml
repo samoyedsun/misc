@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: svc-jenkins
+    labels:
+        app: jenkins
+spec:
+    type: NodePort 
+    ports:
+    - port: 8080
+      targetPort: jenkins-server
+      nodePort: 30808
+    selector:
+        app: jenkins
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp-jenkins
+  labels:
+      app: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - name: jenkins
+        image: jenkins/jenkins:lts
+        ports:
+        - name: jenkins-server
+          containerPort: 8080

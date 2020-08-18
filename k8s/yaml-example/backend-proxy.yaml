@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: svc-backend-proxy
+    labels:
+        app: backend-proxy
+spec:
+    type: NodePort
+    ports:
+    - name: fted-server
+      port: 80
+      protocol: TCP
+      targetPort: fted-server
+      nodePort: 30010
+    - name: bked-server
+      port: 81
+      protocol: TCP
+      targetPort: bked-server
+      nodePort: 30011
+    selector:
+        app: backend-proxy
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp-backend-proxy
+  labels:
+      app: backend-proxy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend-proxy
+  template:
+    metadata:
+      labels:
+        app: backend-proxy
+    spec:
+      containers:
+      - name: backend-proxy
+        image: samoyedsun/bid-dev:v3
+        ports:
+        - name: fted-server
+          containerPort: 80
+        - name: bked-server
+          containerPort: 81
+        command: ["nginx"]
+        args: ["-g", "daemon off;"]

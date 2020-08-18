@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: svc-phpfpm
+    labels:
+        app: phpfpm
+spec:
+    ports:
+    - port: 9000
+      targetPort: phpfpm-server
+    selector:
+        app: phpfpm
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp-phpfpm
+  labels:
+      app: phpfpm
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: phpfpm
+  template:
+    metadata:
+      labels:
+        app: phpfpm
+    spec:
+      containers:
+      - name: phpfpm
+        image: samoyedsun/bid-dev:v3
+        ports:
+        - name: phpfpm-server
+          containerPort: 9000
+        command: ["php-fpm"]
+        args: ["-F"]

@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: svc-probe
+    labels:
+        app: probe
+spec:
+    ports:
+    - port: 4000
+      protocol: TCP
+      targetPort: probe-server
+    selector:
+        app: probe
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp-probe
+  labels:
+      app: probe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: probe
+  template:
+    metadata:
+      labels:
+        app: probe
+    spec:
+      containers:
+      - name: probe
+        image: samoyedsun/probe
+        ports:
+        - name: probe-server
+          containerPort: 80
+        readinessProbe:
+          httpGet:
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10

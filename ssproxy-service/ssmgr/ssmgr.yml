@@ -1,0 +1,7 @@
+type: s
+shadowsocks:
+  address: 192.168.0.103:8972
+manager:
+  address: 0.0.0.0:8971
+  password: qweasdzxc123
+db: 'ss.sqlite'
