@@ -1,2 +1,2 @@
-# mysql_backup
+# mysql-backup
 mysql备份策略
