@@ -4,4 +4,4 @@ docker run -d -p 9980:80 -p 3306:3306 \
         -v ${HOME}/zentaodata/:/opt/zbox/ \
         --add-host smtp.exmail.qq.com:163.177.90.125 \
         --name zentao-server \
-        idoop/zentao:12.3.2
+        idoop/zentao:12.3
