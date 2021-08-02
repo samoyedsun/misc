@@ -1,0 +1,2 @@
+docker stop haproxy_to_ssproxy
+docker rm haproxy_to_ssproxy
