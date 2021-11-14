@@ -1,2 +1,0 @@
-# ssmgr-service
-ssmgr service
