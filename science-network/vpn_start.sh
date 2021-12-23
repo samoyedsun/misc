@@ -1,3 +1,6 @@
+apt update -y
+apt install docker.io
+
 modprobe af_key
 docker run --name ipsec \
     -e VPN_IPSEC_PSK=AUdkZAUWzFcSoptJprtb \
