@@ -4,6 +4,19 @@
 
 using namespace std;
 
+static const int BLOCK_SIZE_LIST[] = 
+{
+    0x10 << 8,
+    0x10 << 7,
+    0x10 << 6,
+    0x10 << 5,
+    0x10 << 4,
+    0x10 << 3,
+    0x10 << 2,
+    0x10 << 1,
+    0x10 << 0,
+};
+
 void mem_pool::init()
 {
     m_trunk_count = 0;
@@ -12,10 +25,7 @@ void mem_pool::init()
     pthread_mutex_init(&m_mutex, NULL);
 
     for (int i = 0; i <= 8; ++i)
-    {
         m_head[i] = NULL;
-        m_block_size_list[i] = 0x10 << (8 - i);
-    }
 }
 
 
@@ -23,9 +33,9 @@ void *mem_pool::mymalloc(int size, const char *filename, int line)
 {
     pthread_mutex_lock(&m_mutex);
 
-    int idx = sizeof(m_block_size_list) / sizeof(int) - 1;
+    int idx = sizeof(BLOCK_SIZE_LIST) / sizeof(int) - 1;
     for (; idx >= 0; --idx)
-        if (size <= m_block_size_list[idx])
+        if (size <= BLOCK_SIZE_LIST[idx])
             break;
     if (idx < 0)
     {
@@ -58,7 +68,7 @@ void *mem_pool::mymalloc(int size, const char *filename, int line)
     {
         while (true)
         {
-            char *half = p + m_block_size_list[find_idx] / 2 ;
+            char *half = p + BLOCK_SIZE_LIST[find_idx] / 2 ;
             ++find_idx;
             
             struct mem_node_t *node_ptr = (struct mem_node_t *)half;        
@@ -123,7 +133,7 @@ void mem_pool::check()
                 alloc_pos_t *pos = m_pos_map[trunk + offset];
                 cout << "memory leak:" << pos->m_filename << ", " << pos->m_line << endl;
             }
-            offset += m_block_size_list[idx];
+            offset += BLOCK_SIZE_LIST[idx];
             if (offset >= 4096)
                 break;
         }

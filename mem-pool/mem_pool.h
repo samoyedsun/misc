@@ -36,7 +36,6 @@ class mem_pool
 
     private:
         struct mem_node_t *m_head[9];
-        int m_block_size_list[9];
 
         char **m_mem_trunk;
         int m_trunk_count;
