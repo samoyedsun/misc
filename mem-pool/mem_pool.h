@@ -49,12 +49,31 @@ class mem_pool
         static const int MEM_POOL_DEFAULT_SIZE = 1024;
 };
 
-extern mem_pool g_log_mem_pool;
+extern mem_pool g_com_mem_pool;
 extern mem_pool g_net_mem_pool;
 
 #define NETMEMINIT() g_net_mem_pool.init()
 #define NETMEMMALLOC(size) g_net_mem_pool.mymalloc(size, __FILE__, __LINE__)
 #define NETMEMFREE(ptr) g_net_mem_pool.myfree(ptr)
 #define NETMEMCHECK() g_net_mem_pool.check()
+
+template<typename T>
+T* construct_from_pool()
+{
+    void *p = g_com_mem_pool.mymalloc(sizeof(T), __FILE__, __LINE__);
+    if (!p)
+    {
+        return NULL;
+    }
+    return new (p) T();
+}
+
+template<typename T>
+void destroy_to_pool(T* p)
+{
+    p->destroy();
+    p->~T();
+    g_com_mem_pool.myfree(p);
+}
 
 #endif

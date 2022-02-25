@@ -140,5 +140,5 @@ void mem_pool::add_trunk(char *trunk)
     m_mem_trunk[m_trunk_count++] = trunk;
 }
 
-mem_pool g_log_mem_pool;
+mem_pool g_com_mem_pool;
 mem_pool g_net_mem_pool;
