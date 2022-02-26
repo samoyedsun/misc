@@ -1,0 +1,43 @@
+version: '3.3'
+
+services:
+    mongo:
+        image: mongo
+        ports:
+            - 27017:27017
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: 1AAAbbbCCCddd2
+        volumes:
+            - ./data:/root/data
+
+    charts:
+        image: quay.io/mongodb/charts:19.12.2
+        hostname: charts
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - keys:/mongodb-charts/volumes/keys
+            - logs:/mongodb-charts/volumes/logs
+            - db-certs:/mongodb-charts/volumes/db-certs
+            - web-certs:/mongodb-charts/volumes/web-certs
+        environment:
+            SSL_CERT_DIR: /mongodb-charts/volumes/db-certs
+        networks:
+            - backend
+        secrets:
+            - charts-mongodb-uri
+
+networks:
+  backend:
+
+volumes:
+  keys:
+  logs:
+  db-certs:
+  web-certs:
+
+secrets:
+  charts-mongodb-uri:
+    external: true
