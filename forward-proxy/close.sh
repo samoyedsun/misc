@@ -1,2 +1,2 @@
-docker stop forwardproxy
-docker rm forwardproxy
+docker stop forward-proxy
+docker rm forward-proxy
