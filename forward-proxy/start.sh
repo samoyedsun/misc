@@ -8,4 +8,4 @@ docker run -it -d \
     -p 15129:15129 \
     -v ${PWD}/nginx-ftp.conf:/etc/nginx/nginx.conf \
     --name forward-ftp-proxy \
-    tsuru/nginx-tsuru
+    nginx
