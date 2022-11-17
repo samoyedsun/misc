@@ -79,12 +79,81 @@ static int SetName(lua_State *L)
 	return 0;
 }
 
+// 注册函数luaopen_student_libs
+int luaopen_student_libs(lua_State *L)
+{
+    luaL_newmetatable(L, "StudentClass");
+    
+    // 将-1位h刚刚创建的元表复制一份压到栈顶
+    lua_pushvalue(L, -1);
+
+    // 将栈顶的元表
+    lua_setfield(L, -2, "__index");
+    
+    return 0;
+}
+
+static const luaL_Reg lua_reg_libs[] = {
+    { "Student", luaopen_student_libs },
+    { NULL, NULL }
+};
+
+static int new_obj(lua_State *L)
+{
+    printf("================newobj\n");
+    return 0;
+}
+
 void test()
 {
     lua_State *L = NULL;
     int var = 999999999;
     L = luaL_newstate();
     luaL_openlibs(L);
+
+    {
+        //size_t iBytes = sizeof(struct StudentTag);
+        //struct StudentTag *pStudent;
+        //pStudent = (struct StudentTag *)lua_newuserdata(L, iBytes);
+        //lua_pushstring(L, "world");
+        printf("globaltableidx:%d\n", LUA_RIDX_GLOBALS);
+        printf("registryindex:%d\n", LUA_REGISTRYINDEX);
+
+        lua_newtable(L);
+        int table_pos = lua_gettop(L);
+
+        /*
+        // create metatable
+        int r = luaL_newmetatable(L, "Student");
+        int metatable_pos = lua_gettop(L);
+        // init metatable 
+        lua_pushliteral(L, "__metatable");
+        lua_pushvalue(L, table_pos);
+        lua_settable(L, metatable_pos);
+        lua_pushliteral(L, "__index");
+        lua_pushvalue(L, table_pos);
+        lua_settable(L, metatable_pos);
+        */
+
+        lua_newtable(L);
+        int mt_pos = lua_gettop(L);
+        lua_pushliteral(L, "__call");
+        lua_pushcfunction(L, new_obj);
+        lua_pushliteral(L, "new");
+        lua_pushvalue(L, -2);
+        lua_settable(L, table_pos);
+        lua_settable(L, mt_pos);
+        lua_setmetatable(L, table_pos);
+
+
+
+        int pos = lua_gettop(L);
+        printf("pos:%d\n", pos);
+        // set element
+        //luaL_getmetatable(L, "Student");
+        //lua_pushvalue(L, -1);
+        //lua_setmetatable(L, -2);
+    }
 
     //将函数压栈供lua调用
     lua_pushcfunction(L, sampleFunc);
